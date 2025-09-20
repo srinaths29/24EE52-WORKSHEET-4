@@ -1,0 +1,121 @@
+#include <iostream>
+using namespace std;
+
+class DB; // Forward declaration of class DB
+
+class DM {
+private:
+    int meters, centimeters;
+
+public:
+    // Default constructor to initialize to zero
+    DM() {
+        meters = 0;
+        centimeters = 0;
+    }
+
+    // Function to input distance in meters and centimeters
+    void getdata() {
+        cout << "Enter distance in meters: ";
+        cin >> meters;
+        cout << "Enter distance in centimeters: ";
+        cin >> centimeters;
+    }
+
+    // Function to display distance in meters and centimeters
+    void showdata() {
+        cout << meters << " meters " << centimeters << " centimeters" << endl;
+    }
+
+    // Friend function to add DM object with DB object
+    friend void addDistances(DM &dm, DB &db);
+};
+
+class DB {
+private:
+    int feet, inches;
+
+public:
+    // Default constructor to initialize to zero
+    DB() {
+        feet = 0;
+        inches = 0;
+    }
+
+    // Function to input distance in feet and inches
+    void getdata() {
+        cout << "Enter distance in feet: ";
+        cin >> feet;
+        cout << "Enter distance in inches: ";
+        cin >> inches;
+    }
+
+    // Function to display distance in feet and inches
+    void showdata() {
+        cout << feet << " feet " << inches << " inches" << endl;
+    }
+
+    // Friend function to add DB object with DM object
+    friend void addDistances(DM &dm, DB &db);
+};
+
+// Friend function to add DM and DB distances
+void addDistances(DM &dm, DB &db) {
+    // Convert DM to centimeters
+    int totalCentimetersDM = dm.meters * 100 + dm.centimeters;
+
+    // Convert DB to centimeters (1 foot = 30.48 cm, 1 inch = 2.54 cm)
+    int totalCentimetersDB = db.feet * 30.48 * 10 + db.inches * 2.54 * 10;
+
+    // Add both distances in centimeters
+    int totalCentimeters = totalCentimetersDM + totalCentimetersDB;
+
+    // Convert back to meters, centimeters, feet, and inches
+    int metersResult = totalCentimeters / 100;
+    int centimetersResult = totalCentimeters % 100;
+
+    int feetResult = totalCentimeters / (30.48 * 10);
+    int inchesResult = (totalCentimeters % (30.48 * 10)) / 2.54;
+
+    cout << "\nTotal Distance in DM (meters, centimeters): " << metersResult << " meters " << centimetersResult << " centimeters" << endl;
+    cout << "Total Distance in DB (feet, inches): " << feetResult << " feet " << inchesResult << " inches" << endl;
+}
+
+int main() {
+    DM dm1, dm2;
+    DB db1, db2;
+
+    // Test case 1: Read and display distances for two DM and two DB objects
+    cout << "Test Case 1: Input and Display DM and DB objects\n";
+    dm1.getdata();
+    db1.getdata();
+
+    dm2.getdata();
+    db2.getdata();
+
+    // Test case 2: Adding DM and DB objects
+    cout << "\nTest Case 2: Adding DM and DB objects\n";
+    addDistances(dm1, db1);
+
+    // Test case 3: Adding second DM and DB objects
+    cout << "\nTest Case 3: Adding second DM and DB objects\n";
+    addDistances(dm2, db2);
+
+    // Test case 4: Checking with zeros (0 distance in both classes)
+    cout << "\nTest Case 4: Zero Distance for both DM and DB\n";
+    DM dm_zero;
+    DB db_zero;
+    addDistances(dm_zero, db_zero);
+
+    // Test case 5: Adding larger values of DM and DB
+    cout << "\nTest Case 5: Adding larger distances for both DM and DB\n";
+    DM dm_large;
+    DB db_large;
+    dm_large = DM();
+    db_large = DB();
+    dm_large.getdata();
+    db_large.getdata();
+    addDistances(dm_large, db_large);
+
+    return 0;
+}
