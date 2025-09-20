@@ -1,0 +1,80 @@
+#include <iostream>
+using namespace std;
+
+class Time {
+private:
+    int hr, min, sec;
+
+public:
+    // Default constructor to initialize the time to 0:00:00
+    Time() {
+        hr = min = sec = 0;
+    }
+
+    // Method to read time data from user
+    void getdata() {
+        cout << "Enter hours: ";
+        cin >> hr;
+        cout << "Enter minutes: ";
+        cin >> min;
+        cout << "Enter seconds: ";
+        cin >> sec;
+    }
+
+    // Method to display time in the format hh:mm:ss
+    void showdata() {
+        cout << hr << " hours " << min << " minutes " << sec << " seconds" << endl;
+    }
+
+    // Operator overloading to add two Time objects (t1 + t2)
+    Time operator+(const Time& t) {
+        Time temp;
+        temp.sec = sec + t.sec;
+        temp.min = min + t.min + (temp.sec / 60);
+        temp.sec %= 60;
+        temp.hr = hr + t.hr + (temp.min / 60);
+        temp.min %= 60;
+        return temp;
+    }
+
+    // Operator overloading to increment seconds by 1 (t1++)
+    Time operator++() {
+        sec++;
+        if (sec >= 60) {
+            sec = 0;
+            min++;
+        }
+        if (min >= 60) {
+            min = 0;
+            hr++;
+        }
+        return *this;
+    }
+};
+
+int main() {
+    Time t1, t2, t3;
+
+    // Test case 1: Getting data for t1 and t2
+    cout << "Test Case 1: Getting Data for t1 and t2" << endl;
+    t1.getdata();
+    t2.getdata();
+
+    // Test case 2: Adding t1 and t2 to get t3
+    cout << "\nTest Case 2: Adding t1 and t2 to get t3" << endl;
+    t3 = t1 + t2;
+
+    // Test case 3: Incrementing t1 by 1 second (t1++)
+    cout << "\nTest Case 3: Incrementing t1 by 1 second" << endl;
+    ++t1;
+
+    // Test case 4: Displaying t3 (sum of t1 and t2)
+    cout << "\nTest Case 4: Displaying t3 (sum of t1 and t2)" << endl;
+    t3.showdata();
+
+    // Test case 5: Displaying t1 after increment
+    cout << "\nTest Case 5: Displaying t1 after increment" << endl;
+    t1.showdata();
+
+    return 0;
+}
