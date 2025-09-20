@@ -1,0 +1,96 @@
+#include <iostream>
+using namespace std;
+
+class Complex {
+private:
+    float real, imag;
+
+public:
+    // Default constructor
+    Complex() {
+        real = 0;
+        imag = 0;
+    }
+
+    // Parameterized constructor
+    Complex(float r, float i) {
+        real = r;
+        imag = i;
+    }
+
+    // Copy constructor
+    Complex(const Complex &c) {
+        real = c.real;
+        imag = c.imag;
+    }
+
+    // Destructor
+    ~Complex() {
+        // Destructor logic (not strictly necessary for simple types)
+        cout << "Destructor called for " << real << " + " << imag << "i" << endl;
+    }
+
+    // Function to get complex number data
+    void getdata() {
+        cout << "Enter real part: ";
+        cin >> real;
+        cout << "Enter imaginary part: ";
+        cin >> imag;
+    }
+
+    // Function to show complex number data
+    void showdata() {
+        if (imag >= 0)
+            cout << real << " + " << imag << "i" << endl;
+        else
+            cout << real << " - " << -imag << "i" << endl;
+    }
+
+    // Function to add two complex numbers
+    Complex add_complex(Complex c1, Complex c2) {
+        Complex temp;
+        temp.real = c1.real + c2.real;
+        temp.imag = c1.imag + c2.imag;
+        return temp;
+    }
+};
+
+int main() {
+    Complex c1, c2, c3;
+
+    // Test case 1: Using the parameterized constructor
+    cout << "Test case 1: Using Parameterized Constructor\n";
+    Complex complex1(3, 4);
+    cout << "Complex number 1: ";
+    complex1.showdata();
+
+    // Test case 2: Using the default constructor and getting data from the user
+    cout << "\nTest case 2: Using Default Constructor and getdata()\n";
+    c1.getdata();
+    c1.showdata();
+
+    // Test case 3: Using the copy constructor
+    cout << "\nTest case 3: Using Copy Constructor\n";
+    Complex complex2 = complex1; // Using copy constructor
+    cout << "Copied Complex number: ";
+    complex2.showdata();
+
+    // Test case 4: Adding two complex numbers using add_complex
+    cout << "\nTest case 4: Adding Two Complex Numbers\n";
+    cout << "Enter complex number 1:\n";
+    c1.getdata();
+    cout << "Enter complex number 2:\n";
+    c2.getdata();
+    c3 = c3.add_complex(c1, c2); // Adding using add_complex function
+    cout << "Sum of complex numbers: ";
+    c3.showdata();
+
+    // Test case 5: Destructor call (when objects go out of scope)
+    cout << "\nTest case 5: Destructor Call\n";
+    {
+        Complex temp(1, 2);
+        temp.showdata();  // Destructor will be called when temp goes out of scope
+    }
+
+    return 0;
+}
